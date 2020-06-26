@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "ipynb-path"
+version = "0.1.1"
+description = "Find the path of the current .ipynb file."
+authors = ["Kazuma Takahara <4269kzm@gmail.com>"]
+license = "MIT"
+readme = "README.rst"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    'Programming Language :: Python :: 3',
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Topic :: Utilities",
+]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+requests = "^2.0"
+ipykernel = "^4.0"
+notebook = "^4.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.8.3"
+autopep8 = "^1.5.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
