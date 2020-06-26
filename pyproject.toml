@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ipynb-path"
-version = "0.1.1"
-description = "Find the path of the current .ipynb file."
+version = "0.1.2"
+description = "A simple python package to get the path of the current IPython / Jupyter Notebook file."
 authors = ["Kazuma Takahara <4269kzm@gmail.com>"]
 license = "MIT"
 readme = "README.rst"
