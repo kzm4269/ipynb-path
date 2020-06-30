@@ -20,9 +20,9 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-requests = "^2.0"
-ipykernel = "^4.0"
-notebook = "^4.0"
+requests = ">=2.0"
+ipykernel = ">=4.0"
+notebook = ">=4.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.8.3"
