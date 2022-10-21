@@ -4,8 +4,22 @@ import os
 import re
 
 import requests
-from ipykernel.connect import get_connection_file
-from notebook.notebookapp import list_running_servers
+
+
+def list_running_servers():
+    try:
+        from notebook.notebookapp import list_running_servers
+        for server in list_running_servers():
+            yield server
+    except ImportError:
+        pass
+
+    try:
+        from jupyter_server.serverapp import list_running_servers
+        for server in list_running_servers():
+            yield server
+    except ImportError:
+        pass
 
 
 class JupyterRestfulApi(requests.Session):
@@ -23,7 +37,9 @@ class JupyterRestfulApi(requests.Session):
         )
 
     def login(self, password=None):
-        if self.server['token']:
+        if not self.server['token'] and not self.server['password']:
+            pass
+        elif self.server['token']:
             self.headers['Authorization'] = 'token ' + self.server['token']
         elif self.server['password']:
             self.get('')
@@ -69,11 +85,15 @@ class JupyterRestfulApi(requests.Session):
 
 
 def current_kernel_id():
-    return re.search(
-        r'kernel-([\w-]+)\.json$',
-        get_connection_file(),
-    ).group(1)
+    try:
+        from ipykernel.connect import get_connection_file
 
+        return re.search(
+            r'kernel-([\w-]+)\.json$',
+            get_connection_file(),
+        ).group(1)
+    except ImportError:
+        return None
 
 def find_current_session(clients):
     kid = current_kernel_id()
@@ -87,4 +107,7 @@ def find_current_session(clients):
 def current_notebook_path(password=None):
     clients = JupyterRestfulApi.login_all(password=password)
     client, session = find_current_session(clients)
-    return os.path.join(client.server['notebook_dir'], session['path'])
+    root_dir = client.server.get('notebook_dir')
+    if root_dir is None:
+        root_dir = client.server['root_dir']
+    return os.path.join(root_dir, session['path'])
